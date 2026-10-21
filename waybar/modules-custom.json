@@ -1,0 +1,547 @@
+//  __  __           _       _
+// |  \/  | ___   __| |_   _| | ___  ___
+// | |\/| |/ _ \ / _` | | | | |/ _ \/ __|
+// | |  | | (_) | (_| | |_| | |  __/\__ \
+// |_|  |_|\___/ \__,_|\__,_|_|\___||___/
+//
+// ------------------------------------------------------------
+// RU: Кастомные модули Waybar. Комментарии — на русском и английском.
+// EN: Custom Waybar modules. Comments are in Russian and English.
+// ------------------------------------------------------------
+
+{
+  // ============================================================
+  // WORKSPACES / ВОРКСПЕЙСЫ
+  // ============================================================
+  "hyprland/workspaces": {
+    "on-scroll-down": "hyprctl dispatch \"hl.dsp.focus({workspace = 'e+1'})\"",
+    "on-scroll-up":   "hyprctl dispatch \"hl.dsp.focus({workspace = 'e-1'})\"",
+    "on-click": "activate",
+    "active-only": false,
+    "all-outputs": true,
+
+    // RU: [OPTIONAL] Нужно, только если вы используете home workspace.
+    //     Именованный 'home' имеет отрицательный ID и должен вставать первым,
+    //     а отображаться как имя "home".
+    // EN: [OPTIONAL] Only needed if you use the home workspace.
+    //     The named 'home' has a negative ID and should be shown first
+    //     and displayed by its name "home".
+    //
+    // "sort-by": "id",
+    // "format": "{name}",
+
+    "format-icons": {
+      "urgent": "",
+      "active": "",
+      "default": ""
+    },
+    "persistent-workspaces": {
+      "*": 5
+    }
+  },
+
+  // ============================================================
+  // TASKBAR / ПАНЕЛЬ ЗАДАЧ
+  // ============================================================
+  "wlr/taskbar": {
+    "format": "{icon}",
+    "icon-size": 18,
+    "tooltip-format": "{title}",
+    "on-click": "activate",
+    "on-click-middle": "close",
+    "ignore-list": [
+      "Alacritty",
+      "kitty"
+    ],
+    "app_ids-mapping": {
+      "firefoxdeveloperedition": "firefox-developer-edition"
+    },
+    "rewrite": {
+      "Firefox Web Browser": "Firefox",
+      "Foot Server": "Terminal"
+    }
+  },
+
+  // ============================================================
+  // HYPRLAND WINDOW / АКТИВНОЕ ОКНО
+  // ============================================================
+  "hyprland/window": {
+    "max-length": 60,
+    "rewrite": {
+      "(.*) - Brave": "$1",
+      "(.*) - Chromium": "$1",
+      "(.*) - Brave Search": "$1",
+      "(.*) - Outlook": "$1",
+      "(.*) Microsoft Teams": "$1"
+    },
+    "separate-outputs": true
+  },
+
+  // ============================================================
+  // ML4W WELCOME APP / ПРИВЕТСТВЕННОЕ ПРИЛОЖЕНИЕ ML4W
+  // ============================================================
+  "custom/ml4w-welcome": {
+    "on-click": "qs ipc call sidebar toggle",
+    "on-click-right": "qs ipc call welcome toggle",
+    "format": " ",
+    "tooltip-format": "Left: Open ML4W Sidebar\nRight: Open ML4W Welcome App"
+  },
+
+  // ============================================================
+  // EMPTY SPACER / ПУСТОЙ РАЗДЕЛИТЕЛЬ
+  // ============================================================
+  "custom/empty": {
+    "format": ""
+  },
+
+  // ============================================================
+  // TOOLS GROUP / ГРУППА ИНСТРУМЕНТОВ
+  // ============================================================
+  "custom/tools": {
+    "format": "",
+    "tooltip-format": "Tools",
+    "on-scroll-up": "true",
+    "on-scroll-down": "true"
+  },
+
+  // ============================================================
+  // NOW PLAYING / СЕЙЧАС ИГРАЕТ
+  // ============================================================
+  "custom/nowplaying": {
+    "exec": "~/.config/ml4w/scripts/ml4w-now-playing",
+    "format": "  {text}",
+    "return-type": "json",
+    "interval": 1,
+    "escape": true,
+    "hide-empty-text": false,
+    "on-click": "playerctl play-pause",
+    "on-click-right": "playerctl next",
+    "on-click-middle": "playerctl previous",
+    "tooltip-format": "Left: Play/Pause\nRight: Next\nMiddle: Previous"
+  },
+  
+  // ============================================================
+  // CLIPBOARD MANAGER / МЕНЕДЖЕР БУФЕРА ОБМЕНА
+  // ============================================================
+  "custom/cliphist": {
+    "format": "",
+    "on-click": "sleep 0.1 && ~/.config/ml4w/scripts/ml4w-cliphist",
+    "on-click-right": "sleep 0.1 && ~/.config/ml4w/scripts/ml4w-cliphist d",
+    "on-click-middle": "sleep 0.1 && ~/.config/ml4w/scripts/ml4w-cliphist w",
+    "tooltip-format": "Left: Open clipboard Manager\nRight: Delete an entry\nMiddle: Clear list",
+    "on-scroll-up": "true",
+    "on-scroll-down": "true"
+  },
+
+  // ============================================================
+  // UPDATES COUNT / КОЛИЧЕСТВО ОБНОВЛЕНИЙ
+  // ============================================================
+  "custom/updates": {
+    "format": "  {}",
+    "escape": true,
+    "return-type": "json",
+    "exec": "~/.config/ml4w/scripts/ml4w-check-system-updates",
+    "interval": 1800,
+    "signal": 1,
+    "hide-empty-text": true,
+    "on-click": "~/.config/ml4w/settings/installupdates.sh",
+    "on-click-right": "~/.config/ml4w/settings/software.sh"
+  },
+
+  // ============================================================
+  // WALLPAPER / ОБОИ
+  // ============================================================
+  "custom/wallpaper": {
+    "format": "",
+    "on-click": "bash -c waypaper &",
+    "on-click-right": "~/.config/hypr/scripts/wallpaper-effects.sh",
+    "tooltip-format": "Left: Select a wallpaper\nRight: Select wallpaper effect"
+  },
+
+  // ============================================================
+  // WAYBAR THEMES / ТЕМЫ WAYBAR
+  // ============================================================
+  "custom/waybarthemes": {
+    "format": "",
+    "on-click": "~/.config/waybar/themeswitcher.sh",
+    "tooltip-format": "Select a waybar theme"
+  },
+
+  // ============================================================
+  // SETTINGS / НАСТРОЙКИ
+  // ============================================================
+  "custom/settings": {
+    "format": "",
+    "on-click": "sleep 0.1 && com.ml4w.dotfilessettings",
+    "tooltip-format": "ML4W Settings"
+  },
+
+  // ============================================================
+  // KEYBINDINGS / ГОРЯЧИЕ КЛАВИШИ
+  // ============================================================
+  "custom/keybindings": {
+    "format": "",
+    "on-click": "~/.config/hypr/scripts/keybindings.sh",
+    "tooltip": false
+  },
+
+  // ============================================================
+  // CALCULATOR / КАЛЬКУЛЯТОР
+  // ============================================================
+  "custom/calculator": {
+    "format": "",
+    "on-click": "qalculate-gtk",
+    "tooltip-format": "Open calculator"
+  },
+
+  // ============================================================
+  // APPS LABEL / НАДПИСЬ "APPS"
+  // ============================================================
+  "custom/appmenu": {
+    // START APPS LABEL / НАЧАЛО НАДПИСИ APPS
+    "format": "Apps",
+    // END APPS LABEL / КОНЕЦ НАДПИСИ APPS
+    "on-click": "~/.config/ml4w/scripts/ml4w-launcher",
+    "on-click-right": "~/.config/hypr/scripts/keybindings.sh",
+    "tooltip-format": "Left: Open the application launcher\nRight: Show all keybindings"
+  },
+
+  // ============================================================
+  // APPS ICON / ИКОНКА APPS
+  // ============================================================
+  "custom/appmenuicon": {
+    "format": "",
+    "on-click": "sleep 0.2;~/.config/ml4w/scripts/ml4w-launcher",
+    "on-click-right": "~/.config/hypr/scripts/keybindings.sh",
+    "tooltip-format": "Left: Open the application launcher\nRight: Show all keybindings"
+  },
+
+  // ============================================================
+  // POWER MENU / МЕНЮ ПИТАНИЯ
+  // ============================================================
+  "custom/exit": {
+    "format": "",
+    "on-click": "ml4w-powermenu toggle",
+    "tooltip-format": "Open Power Menu"
+  },
+
+  // ============================================================
+  // NOTIFICATIONS / УВЕДОМЛЕНИЯ (SwayNC)
+  // ============================================================
+  "custom/notification": {
+    "tooltip-format": "Left: Notifications\nRight: Do not disturb",
+    "format": "{icon}",
+    "format-icons": {
+      "notification": "notifications_active",
+      "none": "notifications",
+      "dnd-notification": "notifications_active",
+      "dnd-none": "notifications_paused",
+      "inhibited-notification": "notification_important",
+      "inhibited-none": "notification_important",
+      "dnd-inhibited-notification": "notification_off",
+      "dnd-inhibited-none": "notifications_off"
+    },
+    "return-type": "json",
+    "exec-if": "which swaync-client",
+    "exec": "swaync-client -swb",
+    "on-click": "swaync-client -t -sw",
+    "on-click-right": "swaync-client -d -sw",
+    "escape": true
+  },
+
+  // ============================================================
+  // HYPRSUNSET / НОЧНОЙ РЕЖИМ
+  // ============================================================
+  "custom/hyprshade": {
+    "format": "",
+    "tooltip-format": "Toggle Screen Shader",
+    "on-click": "sleep 0.5; ~/.config/ml4w/scripts/ml4w-toggle-hyprsunset",
+    "on-scroll-up": "true",
+    "on-scroll-down": "true"
+  },
+
+  // ============================================================
+  // HYPRIDLE / ИНГИБИТОР БЛОКИРОВКИ
+  // ============================================================
+  "custom/hypridle": {
+    "format": "",
+    "return-type": "json",
+    "escape": true,
+    "exec-on-event": true,
+    "interval": 60,
+    "exec": "~/.config/hypr/scripts/hypridle.sh status",
+    "on-click": "~/.config/hypr/scripts/hypridle.sh toggle",
+    "on-scroll-up": "true",
+    "on-scroll-down": "true"
+  },
+
+  // ============================================================
+  // KEYBOARD STATE / СОСТОЯНИЕ КЛАВИАТУРЫ
+  // ============================================================
+  "keyboard-state": {
+    "numlock": true,
+    "capslock": true,
+    "format": "{name} {icon}",
+    "format-icons": {
+      "locked": "",
+      "unlocked": ""
+    },
+    "on-scroll-up": "true",
+    "on-scroll-down": "true"
+  },
+
+  // ============================================================
+  // SYSTEM TRAY / СИСТЕМНЫЙ ЛОТОК
+  // ============================================================
+  "tray": {
+    "icon-size": 21,
+    "spacing": 10
+  },
+
+  // ============================================================
+  // CLOCK / ЧАСЫ
+  // ============================================================
+  "clock": {
+    "format": "{:%H:%M %a}",
+    "on-click": "qs ipc call calendar toggle",
+    "timezone": "",
+    "tooltip": false
+  },
+
+  // ============================================================
+  // HARDWARE GROUP / ГРУППА ЖЕЛЕЗА
+  // ============================================================
+  "custom/system": {
+    "format": "",
+    "tooltip": false,
+    "on-scroll-up": "true",
+    "on-scroll-down": "true"
+  },
+  // CPU LOAD / ЗАГРУЗКА CPU
+  "cpu": {
+    "format": "/ C {usage}% ",
+    "on-click": "~/.config/ml4w/settings/system-monitor.sh",
+    "on-scroll-up": "true",
+    "on-scroll-down": "true"
+  },
+  // MEMORY USAGE / ИСПОЛЬЗОВАНИЕ ПАМЯТИ
+  "memory": {
+    "format": "/ M {}% ",
+    "on-click": "~/.config/ml4w/settings/system-monitor.sh",
+    "on-scroll-up": "true",
+    "on-scroll-down": "true"
+  },
+  // DISK USAGE / ИСПОЛЬЗОВАНИЕ ДИСКА
+  "disk": {
+    "interval": 30,
+    "format": "D {percentage_used}% ",
+    "path": "/",
+    "on-click": "~/.config/ml4w/settings/system-monitor.sh",
+    "on-scroll-up": "true",
+    "on-scroll-down": "true"
+  },
+  // KEYBOARD LAYOUT / РАСКЛАДКА КЛАВИАТУРЫ
+  "hyprland/language": {
+    "format": "/ K {short}",
+    "on-scroll-up": "true",
+    "on-scroll-down": "true"
+  },
+  // Group Hardware / Группа "Железо"
+  "group/hardware": {
+    "orientation": "inherit",
+    "drawer": {
+      "transition-duration": 300,
+      "children-class": "not-memory",
+      "transition-left-to-right": false
+    },
+    "modules": [
+      "custom/system",
+      "disk",
+      "cpu",
+      "memory",
+      "hyprland/language"
+    ]
+  },
+
+  // ============================================================
+  // TOOLS GROUP / ГРУППА ИНСТРУМЕНТОВ
+  // ============================================================
+  "group/tools": {
+    "orientation": "inherit",
+    "drawer": {
+      "transition-duration": 300,
+      "children-class": "not-memory",
+      "transition-left-to-right": false
+    },
+    "modules": [
+      "custom/tools",
+      "custom/cliphist",
+      "custom/hypridle",
+      "custom/hyprshade",
+      "power-profiles-daemon"
+    ]
+  },
+
+  // ============================================================
+  // LINKS GROUP / ГРУППА ССЫЛОК
+  // ============================================================
+  "group/links": {
+    "orientation": "horizontal",
+    "modules": [
+      "custom/chatgpt",
+      "custom/empty"
+    ]
+  },
+
+  // ============================================================
+  // SETTINGS GROUP / ГРУППА НАСТРОЕК
+  // ============================================================
+  "group/settings": {
+    "orientation": "inherit",
+    "drawer": {
+      "transition-duration": 300,
+      "children-class": "not-memory",
+      "transition-left-to-right": true
+    },
+    "modules": [
+      "custom/settings",
+      "custom/waybarthemes",
+      "custom/wallpaper"
+    ]
+  },
+
+  // ============================================================
+  // NETWORK / СЕТЬ
+  // ============================================================
+  "network": {
+    "format": "{ifname}",
+    "format-wifi": " {signalStrength}%",
+    "format-ethernet": "  {ifname}",
+    "format-disconnected": "Disconnected ⚠",
+    "tooltip-format": " {ifname} via {gwaddri}",
+    "tooltip-format-wifi": "  {ifname} @ {essid}\nIP: {ipaddr}\nStrength: {signalStrength}%\nFreq: {frequency}MHz\nUp: {bandwidthUpBits} Down: {bandwidthDownBits}",
+    "tooltip-format-ethernet": " {ifname}\nIP: {ipaddr}\n up: {bandwidthUpBits} down: {bandwidthDownBits}",
+    "tooltip-format-disconnected": "Disconnected",
+    "max-length": 50,
+    "on-click": "~/.config/ml4w/settings/networkmanager.sh",
+    "on-click-right": "~/.config/ml4w/scripts/ml4w-toggle-nmapplet toggle"
+  },
+
+  // ============================================================
+  // BATTERY / БАТАРЕЯ
+  // ============================================================
+  "battery": {
+    "interval": 1,
+    "states": {
+      // "good": 95,
+      "warning": 30,
+      "critical": 15
+    },
+    "format": "{icon} {capacity}%",
+    "format-charging": "  {capacity}%",
+    "format-plugged": "  {capacity}%",
+    "format-alt": "{icon}  {time}",
+    // "format-good": "",
+    // "format-full": "",
+    "format-icons": [
+      " ",
+      " ",
+      " ",
+      " ",
+      " "
+    ]
+  },
+
+  // ============================================================
+  // POWER PROFILES / ПРОФИЛИ ПИТАНИЯ
+  // ============================================================
+  "power-profiles-daemon": {
+    "format": "{icon}",
+    "tooltip-format": "Power profile: {profile}\nDriver: {driver}",
+    "tooltip": true,
+    "format-icons": {
+      "default": "",
+      "performance": "",
+      "balanced": "",
+      "power-saver": ""
+    },
+    "on-scroll-up": "true",
+    "on-scroll-down": "true"
+  },
+
+  // ============================================================
+  // AUDIO / ЗВУК
+  // ============================================================
+  "pulseaudio": {
+    // "scroll-step": 1,
+    "format": "{icon}  {volume}%",
+    "format-bluetooth": "{volume}% {icon} {format_source}",
+    "format-bluetooth-muted": " {icon} {format_source}",
+    "format-muted": " {format_source}",
+    "format-source": "{volume}% ",
+    "format-source-muted": "",
+    "format-icons": {
+      "headphone": " ",
+      "hands-free": " ",
+      "headset": " ",
+      "phone": " ",
+      "portable": " ",
+      "car": " ",
+      "default": [
+        "",
+        "",
+        ""
+      ]
+    },
+    "on-click": "pavucontrol"
+  },
+
+  // ============================================================
+  // BLUETOOTH / БЛЮТУЗ
+  // ============================================================
+  "bluetooth": {
+    "format": " {status}",
+    "format-disabled": "",
+    "format-off": "",
+    "interval": 30,
+    "on-click": "sleep 0.1 && ~/.config/ml4w/settings/bluetooth.sh",
+    "tooltip-format-connected": "Connected devices: {num_connections} connected\n\n{device_enumerate}",
+    "tooltip-format-enumerate-connected": "{device_alias}",
+    "tooltip-format-enumerate-connected-battery": "{device_alias}\t| Battery life: {device_battery_percentage}%",
+    "format-no-controller": ""
+  },
+
+  // ============================================================
+  // USER / ПОЛЬЗОВАТЕЛЬ
+  // ============================================================
+  "user": {
+    "format": "{user}",
+    "interval": 60,
+    "icon": false
+  },
+
+  // ============================================================
+  // BACKLIGHT / ПОДСВЕТКА ЭКРАНА
+  // ============================================================
+  "backlight": {
+    "format": "{icon} {percent}%",
+    "format-icons": [
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+    ],
+    "scroll-step": 1
+  }
+}
