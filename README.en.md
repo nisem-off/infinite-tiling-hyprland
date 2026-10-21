@@ -11,7 +11,7 @@ No binary patches. Config survives updates.
 
 ## 🎬 Demo
 
-*(a gif will go here: close a window on workspace 2, windows from 3 and 4 slide down to 2 and 3, focus stays on 1)*
+![Demo](demo.gif)
 
 ---
 
