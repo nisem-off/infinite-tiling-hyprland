@@ -6,8 +6,11 @@
 [![Hyprland](https://img.shields.io/badge/Hyprland-%E2%89%A5%200.55-blue)](https://hypr.land)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Tested on](https://img.shields.io/badge/Tested%20on-CachyOS%20%2B%20ML4W%202.16.1-brightgreen)](https://cachyos.org)
+[![Status: beta](https://img.shields.io/badge/status-beta-yellow)](https://github.com/nisem-off/infinite-tiling-hyprland/releases)
 
 ---
+
+> **Статус:** beta. Основное работает стабильно, но возможны мелкие баги — при обнаружении создавайте issue.
 
 ## 🎬 Демо
 
